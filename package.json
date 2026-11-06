@@ -1,5 +1,5 @@
 {
-  "name": "@iosevka/monorepo",
+  "name": "lolosevka",
   "version": "34.9.1",
   "workspaces": [
     "packages/*",

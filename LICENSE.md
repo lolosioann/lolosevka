@@ -1,4 +1,5 @@
 Copyright (c) 2015-2026, Renzhi Li (aka. Belleve Invis, belleve@typeof.net)
+Copyright (c) 2026, lolosioann (Lolosevka modifications)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
