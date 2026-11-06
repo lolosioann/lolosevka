@@ -3,3 +3,6 @@
 
 # Recognize PatEL files for GitHub language stats
 *.ptl linguist-language=PatEL
+
+# Binary files: no line-ending conversion
+*.png binary
