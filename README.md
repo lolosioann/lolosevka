@@ -1,10 +1,10 @@
-<p align="center"><img src="images/lolosevka-title.png" alt="Lolosevka"></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="images/lolosevka-title.dark.png"><img src="images/lolosevka-title.light.png" alt="Lolosevka"></picture></p>
 
 **Lolosevka** is a personal monospace font for code and terminals, built from a fork of
 [Iosevka](https://github.com/be5invis/Iosevka) by [Belleve Invis](https://github.com/be5invis).
 All the glyph design and the font generator are Iosevka's work; this repo only changes the configuration.
 
-![Specimen](images/lolosevka-specimen.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/lolosevka-specimen.dark.png"><img src="images/lolosevka-specimen.light.png" alt="Specimen"></picture>
 
 ## Differences from Iosevka
 
@@ -13,7 +13,7 @@ All the glyph design and the font generator are Iosevka's work; this repo only c
 - **Fewer styles:** Regular and Bold, upright and italic, normal width only.
 - Everything else (letter shapes, slashed zero, Greek, Cyrillic, symbols) is stock Iosevka.
 
-![Styles](images/lolosevka-styles.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/lolosevka-styles.dark.png"><img src="images/lolosevka-styles.light.png" alt="Styles"></picture>
 
 ## Build
 
