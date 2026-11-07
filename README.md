@@ -10,10 +10,20 @@ All the glyph design and the font generator are Iosevka's work; this repo only c
 
 - **Wider:** unit width 550 instead of 500, for a slightly airier feel.
 - **No ligatures:** `->`, `!=`, `===`, `<=` etc. render as separate characters.
-- **Fewer styles:** Regular and Bold, upright and italic, normal width only.
+- **Single width:** all 9 weights (Thin to Heavy) in upright, italic and oblique, but no Extended width.
 - Everything else (letter shapes, slashed zero, Greek, Cyrillic, symbols) is stock Iosevka.
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="images/lolosevka-styles.dark.png"><img src="images/lolosevka-styles.light.png" alt="Styles"></picture>
+
+## Install
+
+Linux, current user only:
+
+```sh
+wget -qO- https://raw.githubusercontent.com/lolosioann/lolosevka/main/install.sh | sh
+```
+
+Or download `Lolosevka-TTF.tar.gz` from [Releases](https://github.com/lolosioann/lolosevka/releases) and install the TTFs manually.
 
 ## Build
 
@@ -25,12 +35,19 @@ npm run build -- ttf::Lolosevka          # hinted TTFs -> dist/Lolosevka/TTF
 npm run build -- ttf-unhinted::Lolosevka # skip hinting, faster
 ```
 
-Install on Linux:
+Install your local build:
 
 ```sh
 mkdir -p ~/.local/share/fonts/lolosevka
 cp dist/Lolosevka/TTF/*.ttf ~/.local/share/fonts/lolosevka/
 fc-cache -f
+```
+
+Publish a release (what `install.sh` downloads):
+
+```sh
+tar -czf Lolosevka-TTF.tar.gz -C dist/Lolosevka/TTF .
+gh release create v1.0.0 Lolosevka-TTF.tar.gz --title "Lolosevka v1.0.0"
 ```
 
 ## Customizing

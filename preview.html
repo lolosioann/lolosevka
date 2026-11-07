@@ -2,27 +2,17 @@
 <meta charset="utf-8">
 <title>Lolosevka vs Iosevka</title>
 <style>
-	/* Lolosevka is loaded from the build output; hinted TTF first, unhinted as fallback.
-	   Stock Iosevka must be installed system-wide. A missing font falls back to cursive so it's obvious. */
-	@font-face { font-family: Lolo; font-weight: 400; font-style: normal;
-		src: url(dist/Lolosevka/TTF/Lolosevka-Regular.ttf), url(dist/Lolosevka/TTF-Unhinted/Lolosevka-Regular.ttf); }
-	@font-face { font-family: Lolo; font-weight: 700; font-style: normal;
-		src: url(dist/Lolosevka/TTF/Lolosevka-Bold.ttf), url(dist/Lolosevka/TTF-Unhinted/Lolosevka-Bold.ttf); }
-	@font-face { font-family: Lolo; font-weight: 400; font-style: italic;
-		src: url(dist/Lolosevka/TTF/Lolosevka-Italic.ttf), url(dist/Lolosevka/TTF-Unhinted/Lolosevka-Italic.ttf); }
-	@font-face { font-family: Lolo; font-weight: 700; font-style: italic;
-		src: url(dist/Lolosevka/TTF/Lolosevka-BoldItalic.ttf), url(dist/Lolosevka/TTF-Unhinted/Lolosevka-BoldItalic.ttf); }
-
+	/* Lolosevka is loaded from the build output (see script). Stock Iosevka must be installed system-wide.
+	   A missing font falls back to cursive so it's obvious. */
 	body { margin: 0; padding: 16px; background: #1e1e1e; color: #ddd; font: 14px system-ui, sans-serif; }
 	.bar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
 	textarea { width: 100%; height: 120px; box-sizing: border-box; background: #111; color: #ddd; font-family: monospace; }
 	.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 	h2 { font-size: 13px; color: #888; margin: 8px 0; }
-	h2 span { color: #e8a33d; }
 	pre { margin: 0; padding: 12px; background: #111; white-space: pre-wrap; overflow-wrap: anywhere;
 		font-size: var(--size); font-weight: var(--weight); font-style: var(--slope); }
 	#stock { font-family: Iosevka, "Iosevka Nerd Font", cursive; }
-	/* No faux bold/italic: unbuilt styles show the nearest real face instead. */
+	/* No faux bold/italic, so a face that failed to load is noticeable. */
 	#lolo { font-family: Lolo, cursive; font-synthesis: none; }
 </style>
 
@@ -62,12 +52,20 @@ int main(void) {
 
 <div class="cols">
 	<div><h2>Iosevka (installed)</h2><pre id="stock"></pre></div>
-	<div><h2>Lolosevka (dist/) <span id="missing"></span></h2><pre id="lolo"></pre></div>
+	<div><h2>Lolosevka (dist/)</h2><pre id="lolo"></pre></div>
 </div>
 
 <script>
 	const $ = id => document.getElementById(id);
-	const built = ["400 normal", "700 normal", "400 italic", "700 italic"]; // keep in sync with build-plans.toml
+	// One face per weight x slope, named like the build output (e.g. Lolosevka-SemiBoldItalic.ttf).
+	// Hinted TTF first, unhinted as fallback.
+	for (const o of $("weight").options) {
+		for (const [suffix, style] of [["", "normal"], ["Italic", "italic"], ["Oblique", "oblique"]]) {
+			const name = ((o.text === "Regular" ? "" : o.text) + suffix) || "Regular";
+			const src = dir => `url(dist/Lolosevka/${dir}/Lolosevka-${name}.ttf)`;
+			document.fonts.add(new FontFace("Lolo", `${src("TTF")}, ${src("TTF-Unhinted")}`, { weight: o.value, style }));
+		}
+	}
 	const update = () => {
 		$("stock").textContent = $("lolo").textContent = $("text").value;
 		const s = document.body.style;
@@ -75,8 +73,6 @@ int main(void) {
 		s.setProperty("--weight", $("weight").value);
 		s.setProperty("--slope", $("slope").value);
 		$("sizeVal").textContent = $("size").value;
-		$("missing").textContent = built.includes(`${$("weight").value} ${$("slope").value}`)
-			? "" : "(style not built, showing nearest)";
 	};
 	document.querySelectorAll("input, select, textarea").forEach(el => el.addEventListener("input", update));
 	update();
